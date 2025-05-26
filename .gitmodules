@@ -1,0 +1,4 @@
+[submodule "hd2-json"]
+	path = hd2-json
+	url = git@github.com:helldivers-2/json.git
+	branch = master
