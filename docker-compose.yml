@@ -1,0 +1,13 @@
+name: hd2-app
+
+volumes:
+  redis-data:
+
+services:
+  redis:
+    image: redis:8
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    ports:
+      - '6379:6379'

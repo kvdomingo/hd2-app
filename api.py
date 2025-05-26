@@ -1,15 +1,32 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import ORJSONResponse
+from slowapi.errors import RateLimitExceeded
+
+from src.lib.rate_limit import limiter, rate_limit_exceeded_handler
 
 app = FastAPI(
     title="HD2 API",
     root_path="/api",
     docs_url="/docs",
     redoc_url="/redoc",
+    default_response_class=ORJSONResponse,
+)
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, rate_limit_exceeded_handler)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
 @app.get("/health")
-async def health():
+async def health(request: Request):
     return {"status": "ok"}
 
 
