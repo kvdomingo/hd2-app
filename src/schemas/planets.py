@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from .base import GenericNameDescription
+
 
 class Planet(BaseModel):
     name: str
@@ -9,11 +11,6 @@ class Planet(BaseModel):
     names: dict[str, str]
     type: str
     weather_effects: list[str]
-
-
-class GenericNameDescription(BaseModel):
-    name: str
-    description: str
 
 
 class PlanetRegion(GenericNameDescription):
@@ -26,3 +23,7 @@ class Biome(GenericNameDescription):
 
 class Environmental(GenericNameDescription):
     pass
+
+
+class Effect(GenericNameDescription):
+    galacticEffectId: int

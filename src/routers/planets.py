@@ -3,7 +3,7 @@ from aiofiles import open
 from fastapi import APIRouter, Request
 
 from src.lib.rate_limit import limiter
-from src.schemas.planets import Biome, Environmental, Planet, PlanetRegion
+from src.schemas.planets import Biome, Effect, Environmental, Planet, PlanetRegion
 from src.settings import settings
 
 router = APIRouter(prefix="/planets", tags=["planets"])
@@ -34,4 +34,11 @@ async def list_biomes(request: Request):
 @limiter.limit(settings.GLOBAL_DEFAULT_RATE_LIMIT)
 async def list_environmentals(request: Request):
     async with open(settings.BASE_DIR / "hd2-json/planets/environmentals.json") as f:
+        return orjson.loads(await f.read())
+
+
+@router.get("/effects", response_model=dict[int, Effect])
+@limiter.limit(settings.GLOBAL_DEFAULT_RATE_LIMIT)
+async def list_effects(request: Request):
+    async with open(settings.BASE_DIR / "hd2-json/effects/planetEffects.json") as f:
         return orjson.loads(await f.read())

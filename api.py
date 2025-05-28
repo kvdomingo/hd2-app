@@ -4,7 +4,7 @@ from fastapi.responses import ORJSONResponse
 from slowapi.errors import RateLimitExceeded
 
 from src.lib.rate_limit import limiter, rate_limit_exceeded_handler
-from src.routers import planets, warbonds
+from src.routers import planets, warbonds, weapons
 
 app = FastAPI(
     title="HD2 API",
@@ -37,6 +37,7 @@ async def health(request: Request):
 
 app.include_router(planets.router)
 app.include_router(warbonds.router)
+app.include_router(weapons.router)
 
 
 if __name__ == "__main__":
