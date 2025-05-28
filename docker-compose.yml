@@ -2,8 +2,26 @@ name: hd2-app
 
 volumes:
   redis-data:
+  venv-data:
 
 services:
+  api:
+    build: .
+    image: kvdomingo/hd2-api
+    restart: unless-stopped
+    command:
+      - >
+        uv sync --frozen;
+        exec uv run fastapi dev --host 0.0.0.0 --port 8000;
+    volumes:
+      - .:/app
+      - venv-data:/app/.venv
+    ports:
+      - '8000:8000'
+    depends_on:
+      redis:
+        condition: service_started
+
   redis:
     image: redis:8
     restart: unless-stopped
