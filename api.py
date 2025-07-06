@@ -29,10 +29,7 @@ app.add_middleware(
 @app.get("/health")
 @limiter.limit("100/minute")
 async def health(request: Request):
-    return {
-        "api": "ok",
-        "cache": "ok",
-    }
+    return 'ok'
 
 
 app.include_router(planets.router)
