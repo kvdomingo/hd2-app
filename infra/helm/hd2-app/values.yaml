@@ -48,7 +48,7 @@ podSecurityContext: { }
 # fsGroup: 2000
 
 securityContext: { }
-  # capabilities:
+# capabilities:
 #   drop:
 #   - ALL
 # readOnlyRootFilesystem: true
@@ -71,7 +71,7 @@ ingress:
     gethomepage.dev/name: "HD2 API"
     gethomepage.dev/group: "Apps"
     # gethomepage.dev/icon: "si-nasa"
-    gethomepage.dev/ping: "http://hd2-app.hd2-app.svc.cluster.local/health"
+    gethomepage.dev/ping: "http://hd2-app.hd2-app.svc.cluster.local/api/health"
   # kubernetes.io/tls-acme: "true"
   hosts:
     - host: hd2-api.lab.kvd.studio
@@ -87,8 +87,8 @@ resources: { }
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
 #   cpu: 100m
 #   memory: 128Mi
 # requests:
@@ -98,11 +98,11 @@ resources: { }
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
   httpGet:
-    path: /
+    path: /api/health
     port: http
 readinessProbe:
   httpGet:
-    path: /
+    path: /api/health
     port: http
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/

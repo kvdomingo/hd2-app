@@ -14,8 +14,7 @@ SHELL [ "/bin/sh", "-eu", "-c" ]
 
 SHELL [ "/bin/bash", "-euxo", "pipefail", "-c" ]
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl ca-certificates && \
-    useradd --uid 1000 --shell /bin/bash --user-group --create-home app
+    apt-get install -y --no-install-recommends curl ca-certificates
 
 ADD https://astral.sh/uv/${UV_VERSION}/install.sh /tmp/install-uv.sh
 
@@ -31,6 +30,10 @@ RUN chmod +x /tmp/install-uv.sh &&  \
 
 FROM base AS prod
 
+SHELL [ "/bin/sh", "-eu", "-c" ]
+RUN useradd --uid 1000 --shell /bin/sh --user-group --create-home app && \
+    chown -R 1000:1000 /app
+
 WORKDIR /app
 
 COPY pyproject.toml uv.lock ./
@@ -39,9 +42,6 @@ COPY src src
 COPY *.py .
 COPY --from=build /app/.venv ./.venv/
 
-SHELL [ "/bin/sh", "-eu", "-c" ]
-RUN chown -R 1000:1000 /app
-
 USER app
 
-CMD [ "/app/.venv/bin/fastapi", "run", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "api/app.py" ]
+CMD [ "/app/.venv/bin/fastapi", "run", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers" ]
