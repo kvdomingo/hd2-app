@@ -7,4 +7,5 @@ metadata:
     helm.sh/hook-weight: "-5"
     helm.sh/hook-delete-policy: before-hook-creation
 data:
+  PYTHON_ENV: "prod"
   REDIS_URL: "redis://{{ .Chart.Name }}-redis-headless:6379"

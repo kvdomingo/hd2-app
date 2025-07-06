@@ -1,3 +1,4 @@
+from datetime import timedelta
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal
@@ -11,6 +12,7 @@ class Settings(BaseSettings):
     BASE_DIR: Path = Path(__file__).parent.parent
     REDIS_URL: str = "redis://redis:6379"
     GLOBAL_DEFAULT_RATE_LIMIT: str = "5/second"
+    GLOBAL_DEFAULT_CACHE_TTL: int = timedelta(hours=6).total_seconds()
 
     @computed_field
     @property
