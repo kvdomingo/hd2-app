@@ -149,3 +149,30 @@ affinity:
               - key: app.kubernetes.io/name
                 operator: In
                 values: [ hd2-app ]
+
+redis:
+  image:
+    tag: 8.0.2-debian-12-r3
+  architecture: standalone
+  master:
+    persistence:
+      annotations:
+        argocd.argoproj.io/sync-options: Delete=false,Prune=false
+    readinessProbe:
+      enabled: false
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 20
+      periodSeconds: 20
+      timeoutSeconds: 3
+      failureThreshold: 3
+    startupProbe:
+      enabled: true
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 30
+  auth:
+    enabled: false
+  volumePermissions:
+    enabled: true
