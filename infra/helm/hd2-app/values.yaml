@@ -77,7 +77,7 @@ ingress:
     - host: hd2-api.lab.kvd.studio
       paths:
         - path: /
-          pathType: PathPrefix
+          pathType: Prefix
   tls: [ ]
   #  - secretName: chart-example-tls
   #    hosts:
