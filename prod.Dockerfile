@@ -19,7 +19,7 @@ RUN apt-get update && \
 
 ADD https://astral.sh/uv/${UV_VERSION}/install.sh /tmp/install-uv.sh
 
-COPY ./api/pyproject.toml ./api/uv.lock ./
+COPY pyproject.toml uv.lock ./
 
 SHELL [ "/bin/sh", "-eu", "-c" ]
 # hadolint ignore=DL4006
@@ -33,7 +33,10 @@ FROM base AS prod
 
 WORKDIR /app
 
-COPY ./api ./
+COPY pyproject.toml uv.lock ./
+COPY hd2-json hd2-json
+COPY src src
+COPY *.py .
 COPY --from=build /app/.venv ./.venv/
 
 SHELL [ "/bin/sh", "-eu", "-c" ]
